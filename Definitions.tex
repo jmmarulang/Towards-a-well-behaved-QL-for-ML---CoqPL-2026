@@ -1,0 +1,420 @@
+%% ----------------------------------------------------------------
+%% Definitions.tex
+%% ---------------------------------------------------------------- 
+\RequirePackage{mathtools}
+\RequirePackage{xparse}
+\RequirePackage{pgffor}
+\RequirePackage{ifthen}
+\RequirePackage{amssymb}
+\RequirePackage{xspace}
+
+
+\newcommand{\BibTeX}{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+%% People
+\newcounter{address}
+\setcounter{address}{1}
+\renewcommand{\theaddress}{\textsuperscript{\fnsymbol{address}}}
+%\newcommand{\address}[1]{\refstepcounter{address}\theaddress#1\\}
+\newcommand{\Name}[3]{\texorpdfstring{\href{mailto:#3}{#2}#1}{#2}\xspace}
+\newcommand{\SteveRGunn}[1]{\Name{#1}{Steve R. Gunn}{S.R.Gunn@ecs.soton.ac.uk}}
+
+%% Dingbats
+\newcommand{\tick}{\ding{51}}
+\newcommand{\cross}{\ding{55}}
+
+%% Calculus
+\newcommand{\pd}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}\xspace}
+\newcommand{\fd}[2]{\ensuremath{\frac{d #1}{d #2}}\xspace}
+\newcommand{\dint}{\ensuremath{\int\!\!\!\int}\xspace}
+\newcommand{\tint}{\ensuremath{\int\!\!\!\int\!\!\!\int}\xspace}
+
+%% Math Sets
+\newcommand{\Q}[1]{\ensuremath{\mathbb{#1}}\xspace}
+\newcommand{\R}{\Q{R}}
+
+%% Matrix, Vector
+\newcommand{\V}[1]{\ensuremath{\boldsymbol{#1}}\xspace}
+\newcommand{\M}[1]{\ensuremath{\boldsymbol{#1}}\xspace}
+\newcommand{\0}{\V{0}}
+\newcommand{\1}{\V{1}}
+\newcommand{\I}{\M{I}}
+
+%% Math Functions
+\newcommand{\F}[1]{\ensuremath{\mathrm{#1}}\xspace}
+\newcommand{\sgn}{\F{sgn}}
+\newcommand{\tr}{\F{trace}}
+\newcommand{\diag}{\F{diag}}
+
+%% Math Names
+\newcommand{\N}[1]{\ensuremath{\mathit{#1}}\xspace}
+
+%% Data
+\newcommand{\mc}[1]{\ensuremath{\mathcal{#1}}\xspace}
+\newcommand{\Hyp}{\mc{H}}
+\newcommand{\D}{\mc{D}}
+
+%% Kernel
+\newcommand{\K}{\M{K}}
+\newcommand{\eins}{\texorpdfstring{\ensuremath{\epsilon}}{\textepsilon}-insensitive\xspace}
+\newcommand{\e}{\ensuremath{\epsilon}\xspace}
+\newcommand{\Bxi}{\ensuremath{\boldsymbol{\xi}}\xspace}
+\newcommand{\Kanova}{\ensuremath{\mathit{K_{ANOVA}}}\xspace}
+\newcommand{\Kspline}{\ensuremath{\mathit{K_{spline}}}\xspace}
+
+%% Bayesian
+\newcommand{\MP}{\ensuremath{\mathit{{\scriptscriptstyle \hspace{-1.5pt}M\hspace{-1.5pt}P}}}\xspace}
+\newcommand{\ML}{\ensuremath{\mathit{{\scriptscriptstyle \hspace{-1.5pt}M\hspace{-1.5pt}L}}}\xspace}
+\newcommand{\Qw}{\ensuremath{Q_{\w}(\w)}\xspace}
+\newcommand{\Qa}{\ensuremath{Q_{\Ba}(\Ba)}\xspace}
+\newcommand{\Qb}{\ensuremath{Q_{\beta}(\beta)}\xspace}
+\newcommand{\wMPab}{\ensuremath{\w_{\MP|\bar {\Ba},\bar \beta}}\xspace}
+\newcommand{\wMP}{\ensuremath{\w_{\MP}}\xspace}
+\newcommand{\yMP}{\ensuremath{y_{\MP}}\xspace}
+\newcommand{\BaMP}{\ensuremath{\Ba_{\hspace{1pt}\MP}}\xspace}
+\newcommand{\aMP}{\ensuremath{\alpha_{\hspace{1pt}\MP}}\xspace}
+\newcommand{\bMP}{\ensuremath{\beta_{\hspace{1pt}\MP}}\xspace}
+\newcommand{\Sab}{\ensuremath{\M{\Sigma}_{\bar \Ba,\bar \beta}}\xspace}
+\newcommand{\Ba}{\ensuremath{\boldsymbol{\alpha}}\xspace}
+\newcommand{\Bb}{\ensuremath{\boldsymbol{\beta}}\xspace}
+\newcommand{\Bm}{\ensuremath{\boldsymbol{\mu}}\xspace}
+\newcommand{\BL}{\ensuremath{\boldsymbol{\Lambda}}\xspace}
+\newcommand{\BPhi}{\ensuremath{\boldsymbol{\Phi}}\xspace}
+\newcommand{\SMP}{\ensuremath{\M{\Sigma}_{\MP}}\xspace}
+
+\newcommand{\Pa}{\ensuremath{P(\alpha|\mathcal{H})}\xspace}
+\newcommand{\Pb}{\ensuremath{P(\beta|\mathcal{H})}\xspace}
+\newcommand{\Pab}{\ensuremath{P(\alpha,\beta|\mathcal{H})}\xspace}
+\newcommand{\Pw}{\ensuremath{P(\w|\mathcal{H})}\xspace}
+\newcommand{\PD}{\ensuremath{P(\D|\mathcal{H})}\xspace}
+\newcommand{\PwIa}{\ensuremath{P(\w|\alpha,\mathcal{H})}\xspace}
+\newcommand{\PDIwb}{\ensuremath{P(\D|\w,\beta,\mathcal{H})}\xspace}
+\newcommand{\PDwab}{\ensuremath{P(\D,\w,\alpha,\beta|\mathcal{H})}\xspace}
+\newcommand{\PDIw}{\ensuremath{P(\D|\w,\mathcal{H})}\xspace}
+\newcommand{\PwID}{\ensuremath{P(\w|\D,\mathcal{H})}\xspace}
+\newcommand{\PwabID}{\ensuremath{P(\w,\alpha,\beta|\D,\mathcal{H})}\xspace}
+
+\newcommand{\PanH}{\ensuremath{P(\alpha)}\xspace}
+\newcommand{\PbnH}{\ensuremath{P(\beta)}\xspace}
+\newcommand{\PabnH}{\ensuremath{P(\alpha,\beta)}\xspace}
+\newcommand{\PwnH}{\ensuremath{P(\w)}\xspace}
+\newcommand{\PDnH}{\ensuremath{P(\D)}\xspace}
+\newcommand{\PwIanH}{\ensuremath{P(\w|\alpha)}\xspace}
+\newcommand{\PDIwbnH}{\ensuremath{P(\D|\w,\beta)}\xspace}
+\newcommand{\PDwabnH}{\ensuremath{P(\D,\w,\Ba,\beta)}\xspace}
+\newcommand{\PDIwnH}{\ensuremath{P(\D|\w)}\xspace}
+\newcommand{\PwIDnH}{\ensuremath{P(\w|\D)}\xspace}
+\newcommand{\PwabIDnH}{\ensuremath{P(\w,\alpha,\beta|\D)}\xspace}
+
+\newcommand{\PDwBab}{\ensuremath{P(\D,\w,\Ba,\beta|\mathcal{H})}\xspace}
+\newcommand{\PwIBa}{\ensuremath{P(\w|\Ba,\mathcal{H})}\xspace}
+\newcommand{\PBab}{\ensuremath{P(\Ba,\beta|\mathcal{H})}\xspace}
+\newcommand{\PwBabID}{\ensuremath{P(\w,\Ba,\beta|\D,\mathcal{H})}\xspace}
+
+\newcommand{\PBanH}{\ensuremath{P(\Ba)}\xspace}
+\newcommand{\PwIBanH}{\ensuremath{P(\w|\Ba)}\xspace}
+
+%% Snakes
+\newcommand{\Esnake}{\ensuremath{\mathit{E_{snake}}}\xspace}
+\newcommand{\Eimage}{\ensuremath{\mathit{E_{image}}}\xspace}
+\newcommand{\Econt}{\ensuremath{\mathit{E_{cont}}}\xspace}
+\newcommand{\Ecurv}{\ensuremath{\mathit{E_{curv}}}\xspace}
+\newcommand{\Eint}{\ensuremath{\mathit{E_{int}}}\xspace}
+\newcommand{\Eext}{\ensuremath{\mathit{E_{ext}}}\xspace}
+\newcommand{\Eterm}{\ensuremath{\mathit{E_{term}}}\xspace}
+\newcommand{\Eline}{\ensuremath{\mathit{E_{line}}}\xspace}
+\newcommand{\Eedge}{\ensuremath{\mathit{E_{edge}}}\xspace}
+\newcommand{\Econ}{\ensuremath{\mathit{E_{con}}}\xspace}
+\newcommand{\Eangle}{\ensuremath{\mathit{E_{angle}}}\xspace}
+\newcommand{\Elshape}{\ensuremath{\mathit{E_{lshape}}}\xspace}
+\newcommand{\Eedgedir}{\ensuremath{\mathit{E_{edgedir}}}\xspace}
+\newcommand{\Emodel}{\ensuremath{\mathit{E_{model}}}\xspace}
+\newcommand{\wte}{\ensuremath{\mathit{w_{term}}}\xspace}
+\newcommand{\wli}{\ensuremath{\mathit{w_{line}}}\xspace}
+\newcommand{\wed}{\ensuremath{\mathit{w_{edge}}}\xspace}
+\newcommand{\wco}{\ensuremath{\mathit{w_{con}}}\xspace}
+
+%% Environments
+\newcounter{alg}
+\newenvironment{algorithm}[1]
+{
+    \stepcounter{alg}
+    \begin{table}[htb]
+    \centering
+    \begin{tabular}[t]{ll}
+    \hline&\\
+    \multicolumn{2}{l}{\bf Algorithm \arabic{alg}: #1}\\&\\
+} {
+    &\\
+    \hline
+    \end{tabular}
+    \end{table}
+}
+
+%basic symbols maths
+\newcommand{\Real}{{\mathbb R}}
+%\newcommand{\terms}{{\mathcal{T}}}
+\newcommand{\domainSymbol}{{\mathcal{D}}}
+\newcommand{\distr}{p}
+\newcommand{\dataset}{\mathcal{X}}
+\newcommand{\hypothesis}{\mathcal{H}}
+\newcommand{\property}{\phi}
+\newcommand{\logic}{L}
+\newcommand{\godel}{G\"{o}del}
+\newcommand{\Bool}{\mathbb{B}}
+\newcommand{\Nat}{\mathbb{N}}
+\newcommand{\id}{x}
+\newcommand{\val}{a}
+\newcommand{\cons}[2]{#1 :: #2}
+\newcommand{\consNew}[2]{#2[#1]}
+
+%% comments 
+\newcommand{\TODO}{{\color{red} \textbf{TODO}}}
+\newcommand{\yada}{{\color{red} \textbf{yada yada }}}
+\newcommand{\mcita}{{\color{red} \textbf{??}}}
+\newcommand{\jnote}[2][]{\todo[inline,color=black!10,#1]{JAIRO: #2}}
+\newcommand{\knote}[2][]{\todo[inline,color=blue!10,#1]{KK: #2}}
+\newcommand{\enote}[2][]{\todo[inline,color=green!10,#1]{EM: #2}}
+\newcommand{\anote}[2][]{\todo[inline,color=orange!10,#1]{AB: #2}}
+
+%% Keywords
+\newcommand{\AI}[0]{AI}
+\newcommand{\AILong}[0]{Artificial Intelligence}
+\newcommand{\SiAI}{Symbolic \AI}
+\newcommand{\SiAILong}{Symbolic \AILong}
+\newcommand{\SuAI}{Subsymbolic \AI}
+\newcommand{\SuAILong}{Subsymbolic \AILong}
+\newcommand{\InAI}{Intersymbolic \AI}
+\newcommand{\InAILong}{Intersymbolic \AILong}
+\newcommand{\NN}{Neural Network}
+\newcommand{\nn}{neural network}
+\newcommand{\QL}{Quantitative Logic}
+\newcommand{\DL}{Differentiable Logic} 
+\newcommand{\mathcomp }[0]{\emph{MathComp}}
+\newcommand{\OurLogic}[0]{Fuzzball Logic}
+\newcommand{\OL}[0]{FbL}
+
+% classes of Numbers
+\newcommand{\real}[0]{\mathbb{R}}
+\newcommand{\nat}[0]{\mathbb{N}}
+\newcommand{\ereal}[0]{\overline{\real}}
+\newcommand{\Ereal}[0]{[-\infty,\infty]}
+\newcommand{\PEreal}[0]{[0,\infty]}
+
+%Extended Reals 
+\newcommand{\ldual}[1]{ #1 ^\bot}
+\newcommand{\edual}[1]{ #1 ^{-1}}
+\newcommand{\conmul}[0]{\otimes}
+\newcommand{\psum}[1]{\oplus^{#1}}
+\newcommand{\ediv}[0]{\multimap}
+\newcommand{\dismul}[0]{\,\rotatebox[origin=c]{180}{\&}\,}
+\newcommand{\phsum}[1]{ \,\&^{#1}\, }
+\newcommand{\de}{\mathrm{d}}
+\newcommand{\sigmal}[1]{\Sigma_{#1}}
+\newcommand{\LMS}[3]{\int^{#2}_{#3} #1}
+\newcommand{\LM}[2]{\int^{#2} #1}
+\newcommand{\esup}[1]{\mathrm{ess}\, \sup\,(#1)}
+\newcommand{\einf}[1]{\mathrm{ess}\, \inf\,(#1)}
+%\newcommand{\sigmal}[1]{\Sigma_{#1}}
+\newcommand{\prob}[1]{\mathbb{P}(#1)}
+
+%logic
+\newcommand{\unit}{\textbf{1}}
+\newcommand{\tempty}[1]{\llbracket #1 \rrbracket}
+\newcommand{\m}[1]{\llbracket #1 \rrbracket}
+\newcommand\sepimp{\mathrel{-\mkern-6mu*}}
+%\newcommand{\ldual}[1]{ #1 ^{\bot}}
+%quantifiers
+\newcommand{\pforall}[4]{\forall^{#1}(#2 \in #3).#4}
+\newcommand{\pexists}[4]{\exists^{#1}(#2 \in #3).#4}
+
+% High-level language
+\newcommand{\FunType}[2]{\ensuremath{#1 \text{ $ \rightarrow $ } #2}}
+%\newcommand{\App}[2]{\ensuremath{#1 \text{ $ \rightarrow $ } #2}}
+\newcommand{\VecType}[1]{\ensuremath{\text{Vec } #1}}
+\newcommand{\FinType}[1]{\ensuremath{\text{Index } #1}}
+\newcommand{\BoolType}{\ensuremath{\text{Bool}}}
+\newcommand{\RealType}{\ensuremath{\text{Real}}}
+\newcommand{\ERealType}{\ensuremath{\text{EPReal}}}
+
+\newcommand{\IfSymbol}{ite}
+\newcommand{\AtSymbol}{!}
+
+\newcommand{\AndSymbol}{$\wedge $}
+\newcommand{\OrSymbol}{$ \vee $}
+\newcommand{\NotSymbol}{$ \neg $}
+\newcommand{\ImpliesSymbol}{$ \impl $}
+\newcommand{\AddSymbol}{+}
+\newcommand{\NegSymbol}{-}
+\newcommand{\MulSymbol}{$ \times $}
+\newcommand{\EqSymbol}{==}
+\newcommand{\NeqSymbol}{$ \neq $}
+\newcommand{\LeqSymbol}{$ \leq $}
+\newcommand{\GeqSymbol}{$ \geq $}
+\newcommand{\LeSymbol}{$ < $}
+\newcommand{\GeSymbol}{$ > $}
+
+\newcommand{\AndText}{and}
+\newcommand{\OrText}{or}
+\newcommand{\NotText}{not}
+\newcommand{\ImplText}{implies}
+\newcommand{\AddText}{add}
+\newcommand{\MulText}{mul}
+\newcommand{\EqText}{$==$}
+\newcommand{\NeqText}{$!=$}
+\newcommand{\LeqText}{$<=$}
+\newcommand{\GeqText}{$>=$}
+\newcommand{\LeText}{$<$}
+\newcommand{\GeText}{$ > $}
+
+\newcommand{\App}[2]{\ensuremath{#1 \, #2}}
+\newcommand{\Lam}[3]{\ensuremath{\text{lam } (#1 : #2) \text{ . } #3}}
+\newcommand{\Let}[4]{\ensuremath{\text{let } (#1 : #2) = #3 \text{ in } #4}}
+%\newcommand{\Forall}[3]{\ensuremath{\forall (#1 : #2) \text{ . } #3}}
+%\newcommand{\Exists}[3]{\ensuremath{\exists (#1 : #2) \text{ . } #3}}
+\newcommand{\fAnd}[2]{\ensuremath{#1 \text{ \AndSymbol{} } #2}}
+\newcommand{\fOr}[2]{\ensuremath{#1 \text{ \OrSymbol{} } #2}}
+\newcommand{\fNot}[1]{\ensuremath{\text{\NotSymbol{} } #1}}
+\newcommand{\If}[3]{\ensuremath{\text{if } #1 \text{ then } #2 \text{ else } #3}}
+\newcommand{\Add}[2]{\ensuremath{#1 \text{ \AddSymbol{} } #2}}
+\newcommand{\Mul}[2]{\ensuremath{#1 \text{ \MulSymbol{} } #2}}
+\newcommand{\Eq}[2]{\ensuremath{#1 \text{ \EqSymbol{} } #2}}
+\newcommand{\Neq}[2]{\ensuremath{#1 \text{ \NeqSymbol{} } #2}}
+\newcommand{\Leq}[2]{\ensuremath{#1 \text{ \LeqSymbol{} } #2}}
+\newcommand{\Geq}[2]{\ensuremath{#1 \text{ \GeqSymbol{} } #2}}
+\newcommand{\Le}[2]{\ensuremath{#1 \text{ \LeSymbol{} } #2}}
+\newcommand{\Ge}[2]{\ensuremath{#1 \text{ \GeSymbol{} } #2}}
+\newcommand{\Seq}[2]{\ensuremath{[#1, ..., #2]}}
+\newcommand{\elReal}{\ensuremath{r}}
+\newcommand{\elEReal}{\ensuremath{p}}
+\newcommand{\elNat}{\ensuremath{i}}
+\newcommand{\elBool}{\ensuremath{b}}
+\newcommand{\At}[2]{\ensuremath{#1 \text{ \AtSymbol{} } #2}}
+%\newcommand{\hLam}[3]{\ensuremath{\text{lam } (#1 : #2) \text{ . } #3}}
+
+
+% contexts
+\newcommand{\polCtx}{P}
+\newcommand{\forallPol}{+}
+\newcommand{\existsPol}{-}
+\newcommand{\hNetCtx}{N}
+\newcommand{\hVarCtx}{\Sigma}
+\newcommand{\hRandCtx}{Q}
+\newcommand{\lNetCtx}{M}
+\newcommand{\lInputVarCtx}{I}
+\newcommand{\lOutputVarCtx}{O}
+\newcommand{\semCtx}{\hNetCtx, \hRandCtx, \hVarCtx}
+
+% types
+\newcommand{\hTypeRel}[3]{#1 \Vdash #2 : #3}
+\newcommand{\hcTypeRel}[2]{\hTypeRel{\Xi,\Delta}{#1}{#2}}
+\newcommand{\hTypeRelp}[3]{#1 \Vdash #2 :^p #3}
+\newcommand{\hcTypeRelp}[2]{\hTypeRelp{\Xi,\Delta}{#1}{#2}}
+\newcommand{\hcNetCtx}{\Xi}
+\newcommand{\hcVarCtx}{\Delta}
+\newcommand{\haTypeRel}{\hcTypeRel{e}{\tau}}
+
+\newcommand*{\validForm}[2][\hcNetCtx,\hcVarCtx]{#1 \Vvdash  #2}
+
+\newcommand{\lTypeRel}[2]{#1 \Vdash #2}
+\newcommand{\laTypeRel}{\lTypeRel{\lNetCtx}{e}}
+\newcommand{\cTypeRel}{\lTypeRel{\Xi}{w}}
+
+%grammar
+\newcommand{\grammarItem}[1]{#1}
+\newcommand{\typeClass}{\grammarItem{\tau}}
+\newcommand{\exprClass}{\grammarItem{e}}
+\newcommand{\opClass}{\grammarItem{op}}
+\newcommand{\identClass}{\grammarItem{x}}
+\newcommand{\netClass}{\grammarItem{f}}
+
+\newcommand{\progClass}{\grammarItem{prog}}
+\newcommand{\queryClass}{\grammarItem{query}}
+\newcommand{\arithClass}{\grammarItem{arith}}
+\newcommand{\compareClass}{\grammarItem{comp}}
+\newcommand{\conjClass}{\grammarItem{conj}}
+\newcommand{\inputVarClass}{\grammarItem{inputVar}}
+\newcommand{\outputVarClass}{\grammarItem{outputVar}}
+
+%rules
+%%%% Rule label %%%%%
+\newcommand*{\rulelabel}[1]{{\normalfont \textbf{(#1)}}}
+
+\newcommand*{\LJArithL}{\rulelabel{Arith-L}}
+\newcommand*{\LJArithR}{\rulelabel{Arith-R}}
+\newcommand*{\LJAxiom}{\rulelabel{Axiom}}
+\newcommand*{\LJCut}{\rulelabel{Cut}}
+\newcommand*{\LJCtrL}{\rulelabel{C-L}}
+\newcommand*{\LJCtrLT}{\rulelabel{CL-T}}
+\newcommand*{\LJCtrR}{\rulelabel{C-R}}
+\newcommand*{\LJWeakL}{\rulelabel{W-L}}
+\newcommand*{\LJWeakLT}{\rulelabel{WL}}
+\newcommand*{\LJWeakRT}{\rulelabel{WR}}
+\newcommand*{\LJWeakR}{\rulelabel{W-R}}
+\newcommand*{\LJExchLT}{\rulelabel{XL-T}}
+\newcommand*{\LJCoFixRule}{\rulelabel{CO-FIX}}
+\newcommand*{\LJConjL}{\rulelabel{$\conj$-L}}
+%\newcommand*{\LJConjLG}{\rulelabel{$\conj$-L-G}}
+\newcommand*{\LJConjR}{\rulelabel{$\conj$-R}}
+\newcommand*{\LJDisjL}{\rulelabel{$\disj$-L}}
+%\newcommand*{\LJDisjLG}{\rulelabel{$\disj$-L-G}}
+\newcommand*{\LJDisjR}{\rulelabel{$\disj$-R}}
+\newcommand*{\LJAllL}{\rulelabel{$\forall$-L}}
+%\newcommand*{\LJAllLG}{\rulelabel{$\forall$-L-G}}
+\newcommand*{\LJAllR}{\rulelabel{$\forall$-R}}
+\newcommand*{\LJExL}{\rulelabel{$\exists$-L}}
+%\newcommand*{\LJExLG}{\rulelabel{$\exists$-L-G}}
+\newcommand*{\LJExR}{\rulelabel{$\exists$-R}}
+\newcommand*{\LJImplL}{\rulelabel{$\to$-L}}
+%\newcommand*{\LJImplLG}{\rulelabel{$\to$-L-G}}
+\newcommand*{\LJImplR}{\rulelabel{$\to$-R}}
+\newcommand*{\LJNegR}{\rulelabel{$\neg$-R}}
+\newcommand*{\LJNegL}{\rulelabel{$\neg$-L}}
+
+\newcommand*{\Ass}{\rulelabel{ASSUMP}}
+\newcommand*{\Equi}{\rulelabel{EQUIV}}
+\newcommand*{\IW}{\rulelabel{IW}}
+\newcommand*{\IC}{\rulelabel{IC}}
+\newcommand*{\EW}{\rulelabel{EW}}
+\newcommand*{\EC}{\rulelabel{EC}}
+\newcommand*{\EE}{\rulelabel{EE}}
+\newcommand*{\SP}{\rulelabel{SPLIT}}
+\newcommand*{\MX}{\rulelabel{MIX}}
+\newcommand*{\pL}{\rulelabel{$p$-L}}
+\newcommand*{\pR}{\rulelabel{$p$-R}}
+\newcommand*{\oneL}{\rulelabel{$1$-L}}
+\newcommand*{\oneR}{\rulelabel{$1$-R}}
+\newcommand*{\zeroL}{\rulelabel{$0$-L}}
+\newcommand*{\zeroR}{\rulelabel{$0$-R}}
+\newcommand*{\botL}{\rulelabel{$\bot$-L}}
+\newcommand*{\topR}{\rulelabel{$\top$-R}}
+\newcommand*{\topL}{\rulelabel{$\top$-L}}
+\newcommand*{\monL}{\rulelabel{$\conmul $-L}}
+\newcommand*{\monR}{\rulelabel{$\conmul $-R}}
+\newcommand*{\impL}{\rulelabel{$\ediv$-L}}
+\newcommand*{\impR}{\rulelabel{$\ediv$-R}}
+\newcommand*{\sandL}{\rulelabel{$\&^p$-L}}
+\newcommand*{\sandLl}{\rulelabel{$\&^p$-L1}}
+\newcommand*{\sandLr}{\rulelabel{$\&^p$-L2}}
+\newcommand*{\orL}{\rulelabel{$\psum{p}$-L}}
+\newcommand*{\andR}{\rulelabel{$\phsum{p}$-R}}
+\newcommand*{\andRi}{\rulelabel{$\phsum{\infty}$-R}}
+\newcommand*{\sorRl}{\rulelabel{$\psum{p}$-R1}}
+\newcommand*{\sorRr}{\rulelabel{$\psum{p}$-R2}}
+\newcommand*{\cut}{\rulelabel{CUT}}
+\newcommand*{\comA}{\rulelabel{A-COM}}
+\newcommand*{\comM}{\rulelabel{M-COM}}
+
+%Hypersequents 
+\newcommand{\eHyp}{\mathbb{1}}
+%\newcommand*{\Hyp}{\mathcal{H}}
+\newcommand*{\AssumsEnv}{\Gamma}
+\newcommand*{\hsequentPDL}[2]{\Hyp \ | \ #1  \vdash #2}
+\newcommand*{\ssequentPDL}[1]{\Hyp \ | \ #1 }
+\newcommand*{\tsequentPDL}[1]{\Hyp }
+\newcommand*{\csequentPDL}[4]{\Hyp \ | \ #1  \vdash #2 \ | \ #3  \vdash #4 }
+\newcommand*{\sequentPDL}[2]{ #1  \vdash #2}
+
+%Machine learning 
+\newcommand{\losssymbol}{\mathcal{L}}
+

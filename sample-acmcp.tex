@@ -1,0 +1,292 @@
+%%
+%% This is file `sample-acmcp.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `all,journal,acmcp')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-acmcp.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%%
+%% Commands for TeXCount
+%TC:macro \cite [option:text,text]
+%TC:macro \citep [option:text,text]
+%TC:macro \citet [option:text,text]
+%TC:envir table 0 1
+%TC:envir table* 0 1
+%TC:envir tabular [ignore] word
+%TC:envir displaymath 0 word
+%TC:envir math 0 word
+%TC:envir comment 0 0
+%%
+%% The first command in your LaTeX source must be the \documentclass
+%% command.
+%%
+%% For submission and review of your manuscript please change the
+%% command to \documentclass[manuscript, screen, review]{acmart}.
+%%
+%% When submitting camera ready or to TAPS, please change the command
+%% to \documentclass[sigconf]{acmart} or whichever template is required
+%% for your publication.
+%%
+%%
+\documentclass[sigplan, screen, review, nonacm]{acmart}
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+%\setcopyright{acmlicensed}
+%\copyrightyear{2018}
+%\acmYear{2018}
+%\acmDOI{XXXXXXX.XXXXXXX}
+
+%%
+%% These commands are for a JOURNAL article.
+%\acmJournal{JDS}
+%\acmVolume{37}
+%\acmNumber{4}
+%\acmArticle{111}
+%\acmMonth{8}
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+%%References
+\usepackage[nameinlink]{cleveref}
+\crefname{Definition}{Definition}{Definitions}
+\crefname{Lemma}{Lemma}{Lemmas}
+\setcitestyle{square}
+
+%code
+\usepackage{minted}
+\usemintedstyle{tango}
+
+\input{Definitions} 
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Towards a Well-behaved Quantitative Logic For Machine Learning}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+\author{Jairo Miguel Marulanda-Giraldo}
+\email{J.M.Marulanda-Giraldo@soton.ac.uk}
+%\author{G.K.M. Tobin}
+\affiliation{%
+  \institution{University of Southampton}
+  \country{UK}
+}
+
+\author{Ekaterina Komendantskaya}
+\email{E.Komendantskaya@soton.ac.uk}
+\affiliation{%
+  \institution{University of Southampton \and Heriot-Watt University}
+  \country{UK}
+}
+
+\author{Alessandro Bruni}
+\email{brun@itu.dk}
+\affiliation{%
+  \institution{IT-University of Copenhagen}
+  \country{Denmark}
+}
+
+\author{Reynald Affeldt}
+\email{reynald.affeldt@aist.go.jp}
+\affiliation{%
+  \institution{National Institute of Advanced Industrial Science and Technology (AIST)}
+  \country{Japan}
+}
+
+\author{Matteo Capucci}
+\email{ matteo.capucci@gmail.com}
+\affiliation{%
+  \institution{Independent Researcher}
+  \country{Italy}
+}
+
+\author{Enrico Marchioni}
+\email{ e.marchioni@soton.ac.uk}
+\affiliation{%
+  \institution{University of Southampton}
+  \country{UK}
+}
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{Jairo M.\ Marulanda-Giraldo et al.}
+%%
+%% Article type: Research, Review, Discussion, Invited or position
+%\acmArticleType{Review}
+%%
+%% Links to code and data
+%\acmCodeLink{https://github.com/borisveytsman/acmart}
+%\acmDataLink{htps://zenodo.org/link}
+%%
+%% Authors' contribution
+%\acmContributions{BT and GKMT designed the study; LT, VB, and AP conducted the experiments, BR, HC, CP and JS analyzed the results, JPK developed analytical predictions, all authors participated in writing the manuscript.}
+%%
+%% Sometimes the addresses are too long to fit on the page.  In this
+%% case uncomment the lines below and fill them accodingly.
+%%
+%% \authorsaddresses{Corresponding author: Ben Trovato,
+%% \href{mailto:trovato@corporation.com}{trovato@corporation.com};
+%% Institute for Clarity in Documentation, P.O. Box 1212, Dublin,
+%% Ohio, USA, 43017-6221}
+%%
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+%\keywords{Do, Not, Use, This, Code, Put, the, Correct, Terms, for,Your, Paper}
+
+\maketitle
+
+\section{Introduction}
+
+\textbf{QLs.} Logics that model the real numbers have been studied for decades, and date back to the ideas of Kleene, G\"{o}del, and Łukasiewicz at the start of the 20th century \cite{cintula2011handbook,prooffuzzy}. We refer to these logics as \textit{Quantitative logics} (QLs). To illustrate QLs, let us have a toy syntax with atomic propositions and conjunction, such as 
+\begin{equation*}
+    \Phi \ni \phi := A \,|\, \phi \land \phi
+\end{equation*} 
+where $\phi$ is interpreted through a mapping $\tempty{\cdot} : \Phi \rightarrow I$ such that $ \tempty{\phi} \in I \subseteq \Ereal$. For example, the G\"{o}del fuzzy logic has a standard semantics over $[0, 1]$ where conjunction is interpreted as the minimum function \citep{cintula2011handbook}.
+
+Recently, there was a surge of interest in QLs, stimulated by their application in \emph{AI safety} \cite{davidad24, dalrymple2024guaranteedsafeaiframework}: A logical specification can be imposed during training by integrating its mapping into the system, either as a loss function \citep{slusarz2023logic,van2022analyzing} or as a computational graph \cite{serafini2016logic, petersen2022deep, choi2020probabilistic}, to penalize depending on how much the system deviates from the stated property. Well known QLs such as \textit{Fuzzy Logics} \citep{cintula2011handbook} as well as novel logics developed by the AI community \citep{serafini2016logic, varnai2020robustness, fischer2019dl2} have been applied to this domain.
+
+The growing interest in QLs has motivated their use to give programming language support for safe machine learning. In particular, QLs are useful for compiling specifications to the back-ends of neural network verifiers. As an example, Vehicle \citep{vehicle}, provides a higher-order typed specification language, and gives correct-by-construction translations into loss functions. This calls for stronger guarantees about the correctness of such implementations.
+
+In order to certify its translation, a QL needs to be both well-behaved and suited for optimization algorithms. For instance, it must possess a  \textit{sound} and \textit{complete} calculus, while being \textit{continuous} and \textit{differentiable}. 
+\begin{comment}   
+\begin{itemize}
+    \item \textit{Compositionality}: Negation should compose with conjunction and disjunction, while conjunction and disjunction should satisfy the usual properties of idempotence, commutativity, and associativity.
+    \item \textit{Quantifier Aggregation}: Quantifiers should be monotonic, continuous, and satisfy boundary conditions.
+    \item \textit{Shadow-lifting}: A function should improve if any of its parameters improves.
+    \item \textit{Non-vanishing gradients}: A function's gradient should not approximate zero at a sub-interval of the domain.
+\end{itemize}
+\end{comment}
+However, it is difficult to develop a first-order QL that satisfies these conditions. Well understood logics, such as fuzzy logics, are often not continuous nor differentiable, which hinders performance \citep{van2022analyzing}. On the other hand, logics proposed by the ML community often lack a calculus or formal semantics \citep{van2022analyzing, affeldt2024taming}. Recently, a promising approach for first-order QLs was proposed by \citeauthor{capucci2024quantifiers}: 
+Interpreting existential quantifiers as \textit{p-means} \citep{capucci2024quantifiers}, a generalization of $p$-norms over a probability space \cite{lpspaces}.  
+
+\textbf{Contributions.} We build on these ideas to develop a novel first-order QL designed for AI verification. To certify its integration into neural network verifiers we mechanize it, including, when and if that will be proven, the formalisation of the soundness and completeness results for the logic. Our work seeks to aid in the development of programming language support for safe development of neural networks, as well as influence machine learning research in general \cite{vehicle,grant}.  
+
+\textbf{Selection of Tools.} The new semantics proposed by Capucci presents a particular challenge for formal verification, since, unlike previous formalizations of QLs \cite{affeldt2024taming}, it now also involves results from real analysis and probability. Most notably, it involves formalisations of measure spaces, probability spaces, and Lebsegue integrals, as well as the use of results such as Jensen's  and Hölder's inequalities \cite{mitrinovic1970analytic}. Rocq's Mathematical Components library (\mathcomp{}) \cite{mathcomp}, is a particularly good fit for this task, due to its extensive mathematical libraries. Many of the aforementioned standard results from measure theory are formalized in the library modules on algebra and analysis. However, some, such as the encoding of extended real numbers, still require further development. 
+\section{Properties}
+In the machine learning community, there is a general consensus on the desirable properties of loss functions --- \textit{monotonicity} or \textit{continuity} are widely considered desirable \cite{van2022analyzing}. Moreover, \citeauthor{varnai2020robustness} suggest characterizing quantitative logics in terms of their \textit{geometric properties}, valuable for optimization tasks \cite{varnai2020robustness}. From the programming language perspective, logical operators should behave as expected. For example, negation should meet \textit{De Morgan's laws}, while conjunction and disjunction should satisfy the usual properties of \textit{commutativity} and \textit{associativity}. 
+
+\section{Proposed Language and Semantics}
+ We introduce the main ideas for first-order quantitative logic following Capucci \cite{capucci2024quantifiers}. Our full language follows the linear logic tradition and possesses multiplicative operators \citep{Wadler1993}, as well as a family of operators parametrized by a nonnegative real number $p$, that approximates the additives as $p = \infty$. We illustrate with a simplified version which features only a \textit{neutral element}, \textit{linear implication} and \textit{existential quantification}.
+\begin{equation*}
+    \begin{split}
+        &\Phi(X) \ni \phi(x) := \, \textbf{1} \, |\,  \phi(x) \ediv{} \phi(x) \,
+        |\, \pexists{p}{y}{Y}{\psi(y,x)}
+    \end{split}
+\end{equation*}
+where $p \in [0,\infty]$, and $X, Y$ are contexts.
+
+The translation function $\m{\cdot} : \Phi \rightarrow [0,\infty]$ is defined inductively on the structure of formulae. For the neutral element, we simply have $\m{\textbf{1}} := 1$. linear implication is interpreted as division, extended to $[0,\infty]$. 
+ \begin{equation*}
+		\begin{tabular}{c|ccc}
+			$\m{a \ediv{} b}$ & $0$ & $a \in (0,\infty)$ & $\infty$\\
+			\cline{1-4}
+			$0$ 			   & $\infty$ & $0$ 		& $0$\\
+			$b \in (0,\infty)$ & $\infty$ & $b/a$		& $0$\\
+			$\infty$ 		   & $\infty$ & $\infty$ & $\infty$
+		\end{tabular}
+	\end{equation*}
+
+a family of existential quantifiers is given by the $p$-mean \citep{capucci2024quantifiers}.
+\begin{equation*}
+        \m{\pexists{p}{y}{Y}{\psi(y, x)}} := \left(\int_{\m{Y}} \m{\psi(y,x)}^{\,p}\right)^{1/p}
+    \end{equation*}
+Where $\m{Y}$ is a probability space and $\int{}$ is the Lebesgue integral \citep{mitrinovic1970analytic}.
+The definition of $p$-means can be extended to $p=0$ and $p=\infty$ by taking limits \cite{capucci2024quantifiers}. For $p=\infty$ we obtain the essential supremum. 
+\begin{equation*}
+        \m{\pexists{\infty}{y}{Y}{\psi(y, x)}} := \esup{\m{\psi(y, x)}}
+\end{equation*}
+
+When $p = 0$ we obtain the weighted geometric mean:
+
+\begin{equation*}
+        \m{\pexists{0}{y}{Y}{\psi(y,x)}} := \exp \left(\int_{\m{Y}} \ln \m{\psi(y, x)}\right)    
+\end{equation*}
+
+Therefore we can define \textit{negation} as $\ldual{a} := a \ediv{} \textbf{1}$ and \textit{universal quantification} through De Morgan's laws as $$\pforall{p}{y}{Y}{\psi(y, x)} := \ldual{(\pexists{p}{y}{Y}{\ldual{\psi(y, x)}})}.$$
+
+ We have developed a propositional sequent calculus for our logic, as well as a pen-and-paper proof of soundness. It makes use of both bunches \citep{o1999logic} and hypersequents \citep{prooffuzzy}. Extending our logic into first-order requires modifying our real-value interpretation, and therefore our algebraic semantics. For our current approach to maintain soundness, additional conditions must be imposed on substitution. 
+
+\section{Formalization Progress}
+
+On the formalization side, we build on the work of \citeauthor{affeldt2024taming}, who formalize some prominent propositional QLs \citep{affeldt2024taming}.  Up-tod-date we have mechanized the semantics presented by \citeauthor{capucci2024quantifiers} \cite{capucci2024quantifiers}, and some basic properties of the $p$-means. Let us illustrate with an encoding of the $p$-mean using \texttt{Lnorm}, \mathcomp{}'s encoding of the $p$-norm \cite{lpspaces}. Note the following implementations have been simplified for clarity. 
+\begin{minted}{Coq}
+Definition Lnorm P p f :=
+  match p with
+  | p%:E => (\int[mu]_x `|f x| `^ p) `^ p^-1
+  | +oo => ess_sup P (abse \o f)
+  | -oo => ess_inf P (abse \o f)
+end.
+
+Definition geo_mean P f :=  
+    expeR \int[P]_x (lne (f x)). 
+
+Definition pmean P p f := 
+    if p == 0 then geo_mean P f 
+              else Lnorm P p f.
+\end{minted}
+
+Where \texttt{ess\_sup}, \texttt{ess\_inf},  \texttt{geo\_mean}, and \texttt{pmean} correspond respectively to the essential supremum, essential infimum, geometric mean and $p$-mean. 
+
+We are currently working on extending the analysis module of \mathcomp{}.
+In particular, Hölder's inequalities must be generalized to functions that go to the extended reals. In this process, we noticed the original encoding of the power function over extended real numbers incorrectly assumed its exponent is a real number greater than or equal to zero. The implementation has now been generalized for negative exponents.
+
+\section{Conclusion and Future Work}
+In this extended abstract we described our work in progress. We presented the main ideas behind a first-order quantitative logic to be applied in AI verification, and argued for the usefulness of formalization to provide implementation guarantees. In the future we aim to formalize our logic's propositional sequent calculus and its properties, including soundness and completeness. We then will extend our logic into first-order and adapt our formalism accordingly.
+
+\section{Acknowledgements}
+J. Marulanda-Giraldo and E. Komendantskaya acknowledge the partial support of the EPSRC grant AISEC: AI Secure and Explainable by Construction (EP/T026960/1).
+M. Capucci and E. Komendantskaya were supported by ARIA: Mathematics for Safe AI grant.
+J. Marulanda-Giraldo received PhD Scholarship from the University of Southampton.
+
+\textbf{Disclosure of Interests.} The authors have no competing interests to declare that are relevant to the content of this article. 
+
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
+\endinput
+%%
+%% End of file `sample-acmcp.tex'.
