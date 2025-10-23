@@ -110,6 +110,7 @@
   \country{UK}
 }
 
+\begin{comment}
 \author{Ekaterina Komendantskaya}
 \email{E.Komendantskaya@soton.ac.uk}
 \affiliation{%
@@ -144,6 +145,8 @@
   \institution{University of Southampton}
   \country{UK}
 }
+\end{comment}
+
 %%
 %% By default, the full list of authors will be used in the page
 %% headers. Often, this list is too long, and will overlap
@@ -182,12 +185,12 @@
 \textbf{QLs.} Logics that model the real numbers have been studied for decades, and date back to the ideas of Kleene, G\"{o}del, and Łukasiewicz at the start of the 20th century \cite{cintula2011handbook,prooffuzzy}. We refer to these logics as \textit{Quantitative logics} (QLs). To illustrate QLs, let us have a toy syntax with atomic propositions and conjunction, such as 
 \begin{equation*}
     \Phi \ni \phi := A \,|\, \phi \land \phi
-\end{equation*} 
-where $\phi$ is interpreted through a mapping $\tempty{\cdot} : \Phi \rightarrow I$ such that $ \tempty{\phi} \in I \subseteq \Ereal$. For example, the G\"{o}del fuzzy logic has a standard semantics over $[0, 1]$ where conjunction is interpreted as the minimum function \citep{cintula2011handbook}.
+\end{equation*}
+where $\phi$ is interpreted through a mapping $\tempty{\cdot} : \Phi \rightarrow I$ such that \hbox{$\tempty{\phi} \in I \subseteq \Ereal$}. For example, the G\"{o}del fuzzy logic has a standard semantics over $[0, 1]$ where conjunction is interpreted as the minimum function \citep{cintula2011handbook}.
 
 Recently, there was a surge of interest in QLs, stimulated by their application in \emph{AI safety} \cite{davidad24, dalrymple2024guaranteedsafeaiframework}: A logical specification can be imposed during training by integrating its mapping into the system, either as a loss function \citep{slusarz2023logic,van2022analyzing} or as a computational graph \cite{serafini2016logic, petersen2022deep, choi2020probabilistic}, to penalize depending on how much the system deviates from the stated property. Well known QLs such as \textit{Fuzzy Logics} \citep{cintula2011handbook} as well as novel logics developed by the AI community \citep{serafini2016logic, varnai2020robustness, fischer2019dl2} have been applied to this domain.
 
-The growing interest in QLs has motivated their use to give programming language support for safe machine learning. In particular, QLs are useful for compiling specifications to the back-ends of neural network verifiers. As an example, Vehicle \citep{vehicle}, provides a higher-order typed specification language, and gives correct-by-construction translations into loss functions. This calls for stronger guarantees about the correctness of such implementations.
+The growing interest in QLs has motivated their use to give programming language support for safe machine learning. In particular, QLs are useful for compiling specifications to the back-ends of neural network verifiers. As an example, Vehicle \citep{vehicle} provides a higher-order typed specification language, and gives correct-by-construction translations into loss functions. This calls for stronger guarantees about the correctness of such implementations.
 
 In order to certify its translation, a QL needs to be both well-behaved and suited for optimization algorithms. For instance, it must possess a  \textit{sound} and \textit{complete} calculus, while being \textit{continuous} and \textit{differentiable}. 
 \begin{comment}   
@@ -201,56 +204,84 @@ In order to certify its translation, a QL needs to be both well-behaved and suit
 However, it is difficult to develop a first-order QL that satisfies these conditions. Well understood logics, such as fuzzy logics, are often not continuous nor differentiable, which hinders performance \citep{van2022analyzing}. On the other hand, logics proposed by the ML community often lack a calculus or formal semantics \citep{van2022analyzing, affeldt2024taming}. Recently, a promising approach for first-order QLs was proposed by \citeauthor{capucci2024quantifiers}: 
 Interpreting existential quantifiers as \textit{p-means} \citep{capucci2024quantifiers}, a generalization of $p$-norms over a probability space \cite{lpspaces}.  
 
-\textbf{Contributions.} We build on these ideas to develop a novel first-order QL designed for AI verification. To certify its integration into neural network verifiers we mechanize it, including, when and if that will be proven, the formalisation of the soundness and completeness results for the logic. Our work seeks to aid in the development of programming language support for safe development of neural networks, as well as influence machine learning research in general \cite{vehicle,grant}.  
+The new semantics proposed by Capucci presents a particular challenge for formal verification, since, unlike previous formalizations of QLs \cite{affeldt2024taming}, it now also involves results from real analysis and probability. Most notably, it involves formalisations of measure spaces, probability spaces, and Lebsegue integrals, as well as the use of results such as Jensen's  and Hölder's inequalities \cite{mitrinovic1970analytic}. Rocq's Mathematical Components library (\mathcomp{}) \cite{mathcomp} is a particularly good fit for this task, due to its extensive mathematical libraries. Many of the aforementioned standard results from measure theory are formalized in the library modules on algebra and analysis. However, some, such as the encoding of extended real numbers, still require further development. 
 
-\textbf{Selection of Tools.} The new semantics proposed by Capucci presents a particular challenge for formal verification, since, unlike previous formalizations of QLs \cite{affeldt2024taming}, it now also involves results from real analysis and probability. Most notably, it involves formalisations of measure spaces, probability spaces, and Lebsegue integrals, as well as the use of results such as Jensen's  and Hölder's inequalities \cite{mitrinovic1970analytic}. Rocq's Mathematical Components library (\mathcomp{}) \cite{mathcomp}, is a particularly good fit for this task, due to its extensive mathematical libraries. Many of the aforementioned standard results from measure theory are formalized in the library modules on algebra and analysis. However, some, such as the encoding of extended real numbers, still require further development. 
+\textbf{Contributions.} We hope to build on these ideas to develop and mechanize a novel first-order QL designed for AI verification, leveraging \mathcomp{}'s analysis libraries. To this end, we will develop and generalize encodings for the extended real numbers, most notably Hölder's inequality \cite{mitrinovic1970analytic}. Our work seeks to aid in the development of programming language support for safe development of neural networks, as well as influence machine learning research in general \cite{vehicle,grant}.  
+
 \section{Properties}
 In the machine learning community, there is a general consensus on the desirable properties of loss functions --- \textit{monotonicity} or \textit{continuity} are widely considered desirable \cite{van2022analyzing}. Moreover, \citeauthor{varnai2020robustness} suggest characterizing quantitative logics in terms of their \textit{geometric properties}, valuable for optimization tasks \cite{varnai2020robustness}. From the programming language perspective, logical operators should behave as expected. For example, negation should meet \textit{De Morgan's laws}, while conjunction and disjunction should satisfy the usual properties of \textit{commutativity} and \textit{associativity}. 
 
 \section{Proposed Language and Semantics}
- We introduce the main ideas for first-order quantitative logic following Capucci \cite{capucci2024quantifiers}. Our full language follows the linear logic tradition and possesses multiplicative operators \citep{Wadler1993}, as well as a family of operators parametrized by a nonnegative real number $p$, that approximates the additives as $p = \infty$. We illustrate with a simplified version which features only a \textit{neutral element}, \textit{linear implication} and \textit{existential quantification}.
+\label{LanguageAndSemantics}
+ We introduce the main ideas for first-order quantitative logic following Capucci \cite{capucci2024quantifiers}. Our full language follows the linear logic tradition and possesses multiplicative operators \citep{Wadler1993}, as well as a family of operators parametrized by a nonnegative real number $p$, that approximates the additives as $p = \infty$. We illustrate with a simplified version which features only \textit{negation}, and \textit{existential quantification}.
 \begin{equation*}
     \begin{split}
-        &\Phi(X) \ni \phi(x) := \, \textbf{1} \, |\,  \phi(x) \ediv{} \phi(x) \,
+        &\Phi(X) \ni \phi(x) := \,  \ldual{\phi(x)} \,
         |\, \pexists{p}{y}{Y}{\psi(y,x)}
     \end{split}
 \end{equation*}
-where $p \in [0,\infty]$, and $X, Y$ are contexts.
+where $p \in [0,\infty]$, $X, Y$ are contexts and $\psi(y,x) \in \Phi(Y,X)$.
 
-The translation function $\m{\cdot} : \Phi \rightarrow [0,\infty]$ is defined inductively on the structure of formulae. For the neutral element, we simply have $\m{\textbf{1}} := 1$. linear implication is interpreted as division, extended to $[0,\infty]$. 
- \begin{equation*}
-		\begin{tabular}{c|ccc}
-			$\m{a \ediv{} b}$ & $0$ & $a \in (0,\infty)$ & $\infty$\\
-			\cline{1-4}
-			$0$ 			   & $\infty$ & $0$ 		& $0$\\
-			$b \in (0,\infty)$ & $\infty$ & $b/a$		& $0$\\
-			$\infty$ 		   & $\infty$ & $\infty$ & $\infty$
-		\end{tabular}
-	\end{equation*}
+The translation function $\m{\cdot} : \Phi \rightarrow [0,\infty]$ is defined inductively on the structure of formulae. For the neutral element, we simply have $\m{\textbf{1}} := 1$. Negation is interpreted as the inverse, extended to $[0,\infty]$. 
+    \[  \m{\ldual{a}} =
+    \begin{cases}
+    \edual{\m{a}}  & \m{a} \in (0,\infty)  \\
+    \infty & \m{a} = 0 \\
+    0 & \m{a} = \infty \\
+   \end{cases}
+    \]
 
 a family of existential quantifiers is given by the $p$-mean \citep{capucci2024quantifiers}.
 \begin{equation*}
         \m{\pexists{p}{y}{Y}{\psi(y, x)}} := \left(\int_{\m{Y}} \m{\psi(y,x)}^{\,p}\right)^{1/p}
     \end{equation*}
 Where $\m{Y}$ is a probability space and $\int{}$ is the Lebesgue integral \citep{mitrinovic1970analytic}.
-The definition of $p$-means can be extended to $p=0$ and $p=\infty$ by taking limits \cite{capucci2024quantifiers}. For $p=\infty$ we obtain the essential supremum. 
+The definition of $p$-means can be extended to $p=0$ and $p=\infty$ by taking limits \cite{capucci2024quantifiers}. For $p=\infty$ and $p = 0$ we obtain respectively the essential supremum and the geometric mean. 
 \begin{equation*}
-        \m{\pexists{\infty}{y}{Y}{\psi(y, x)}} := \esup{\m{\psi(y, x)}}
+\begin{split}
+    \m{\pexists{\infty}{y}{Y}{\psi(y, x)}} := \esup{\m{\psi(y, x)}}\\
+    \m{\pexists{0}{y}{Y}{\psi(y,x)}} := \exp \left(\int_{\m{Y}} \ln \m{\psi(y, x)}\right)
+\end{split}
 \end{equation*}
+Therefore, we can define \textit{universal quantification} through De Morgan's laws as $$\pforall{p}{y}{Y}{\psi(y, x)} := \ldual{(\pexists{p}{y}{Y}{\ldual{\psi(y, x)}})}.$$
+Note that for $p = 0$ universal and existential quantifiers only differ in the way they handle $0$ and $\infty$.
 
-When $p = 0$ we obtain the weighted geometric mean:
+ We have developed a propositional sequent calculus for our logic, as well as a pen-and-paper proof of soundness. It makes use of both bunches \citep{o1999logic} and hypersequents \citep{prooffuzzy}. Extending our logic into first-order requires modifying our real-value interpretation. For our current approach to maintain soundness, additional conditions must be imposed on substitution. 
+\section{Rocq Formalization}
+\subsection{Library Development}
 
-\begin{equation*}
-        \m{\pexists{0}{y}{Y}{\psi(y,x)}} := \exp \left(\int_{\m{Y}} \ln \m{\psi(y, x)}\right)    
-\end{equation*}
+Semantics of quantifiers make use of both the \textit{natural logarithm function}, and the \textit{power function}. However, previous implementations in \mathcomp{} proved inadequate for our use case. The natural logarithm \texttt{ln} only accepted real numbers, while the power function over extended real numbers \texttt{poweR} assumed its exponent is a real number greater than or equal to zero. Up-to-date, we have developed a natural logarithm for extended real numbers \texttt{lne} and merged it to the master branch, and are currently generalizing \texttt{poweR} to accept any extended real number as an exponent. Both of these functions must be proven to be measurable \citep{mitrinovic1970analytic}.  
 
-Therefore we can define \textit{negation} as $\ldual{a} := a \ediv{} \textbf{1}$ and \textit{universal quantification} through De Morgan's laws as $$\pforall{p}{y}{Y}{\psi(y, x)} := \ldual{(\pexists{p}{y}{Y}{\ldual{\psi(y, x)}})}.$$
+To prove soundness of our first-order calculus, we make use of Hölder's inequality \cite{mitrinovic1970analytic}.
 
- We have developed a propositional sequent calculus for our logic, as well as a pen-and-paper proof of soundness. It makes use of both bunches \citep{o1999logic} and hypersequents \citep{prooffuzzy}. Extending our logic into first-order requires modifying our real-value interpretation, and therefore our algebraic semantics. For our current approach to maintain soundness, additional conditions must be imposed on substitution. 
 
-\section{Formalization Progress}
+\begin{definition}[Hölder's inequality]
+    Let $\textbf{S} = (S, \sigmal{S}, \mathbb{P})$ be a measure space and $p,q \in [1,\infty]$ with $\edual{p} + \edual{q} = 1$. Then for all measurable extended real functions $f$ and $g$ on S,
+    \begin{equation*}
+         \int_{\textbf{S}} |fg| \leq \left(\int_{\textbf{S}} |f|^{\,p}\right)^{1/p}\left(\int_{\textbf{S}} |g|^{\,q}\right)^{1/q}
+    \end{equation*}
+\end{definition}
 
-On the formalization side, we build on the work of \citeauthor{affeldt2024taming}, who formalize some prominent propositional QLs \citep{affeldt2024taming}.  Up-tod-date we have mechanized the semantics presented by \citeauthor{capucci2024quantifiers} \cite{capucci2024quantifiers}, and some basic properties of the $p$-means. Let us illustrate with an encoding of the $p$-mean using \texttt{Lnorm}, \mathcomp{}'s encoding of the $p$-norm \cite{lpspaces}. Note the following implementations have been simplified for clarity. 
+In \mathcomp{}, this inequality is given for real functions by \texttt{hoelder}. 
+
+Note the following implementations have been simplified for clarity. 
+
+\begin{minted}{Coq}
+Lemma hoelder f g p q :
+    measurable_fun f -> measurable_fun g ->
+    (0 < p) -> (0 < q) -> (p^-1 + q^-1 = 1) ->
+  'N_1[(f \* g)] <= 'N_p[f] * 'N_q[g].
+\end{minted}
+
+We then hope to formalize this inequality for the extended real numbers. 
+
+\subsection{Logic Mechanization}
+We build on the work of \citeauthor{affeldt2024taming}, who formalize some prominent propositional QLs \citep{affeldt2024taming}.  Up-tod-date we have mechanized the semantics presented by \citeauthor{capucci2024quantifiers} \cite{capucci2024quantifiers}, and some basic properties of the $p$-means. Let us illustrate with an encoding of the semantics introduced in \cref{LanguageAndSemantics}. For the inverse, we use \texttt{poweR}.
+\begin{minted}{Coq}
+Definition inv a := 
+    if a == 0 then +oo else a `^ -1.
+\end{minted}
+We encode the $p$-mean using \texttt{Lnorm}, \mathcomp{}'s encoding of the $p$-norm \cite{lpspaces}. 
 \begin{minted}{Coq}
 Definition Lnorm P p f :=
   match p with
@@ -267,21 +298,17 @@ Definition pmean P p f :=
               else Lnorm P p f.
 \end{minted}
 
-Where \texttt{ess\_sup}, \texttt{ess\_inf},  \texttt{geo\_mean}, and \texttt{pmean} correspond respectively to the essential supremum, essential infimum, geometric mean and $p$-mean. 
+Where \texttt{ess\_sup}, \texttt{ess\_inf},  \texttt{geo\_mean}, and \texttt{pmean} correspond respectively to the essential supremum, essential infimum, geometric mean and $p$-mean.
 
-We are currently working on extending the analysis module of \mathcomp{}.
-In particular, Hölder's inequalities must be generalized to functions that go to the extended reals. In this process, we noticed the original encoding of the power function over extended real numbers incorrectly assumed its exponent is a real number greater than or equal to zero. The implementation has now been generalized for negative exponents.
+\section{Future Work}
+ In the future we aim to formalize our logic's propositional sequent calculus and its properties, including soundness and completeness. We then will extend our logic into first-order and adapt our formalism accordingly.
 
-\section{Conclusion and Future Work}
-In this extended abstract we described our work in progress. We presented the main ideas behind a first-order quantitative logic to be applied in AI verification, and argued for the usefulness of formalization to provide implementation guarantees. In the future we aim to formalize our logic's propositional sequent calculus and its properties, including soundness and completeness. We then will extend our logic into first-order and adapt our formalism accordingly.
-
+\begin{comment}
 \section{Acknowledgements}
 J. Marulanda-Giraldo and E. Komendantskaya acknowledge the partial support of the EPSRC grant AISEC: AI Secure and Explainable by Construction (EP/T026960/1).
 M. Capucci and E. Komendantskaya were supported by ARIA: Mathematics for Safe AI grant.
 J. Marulanda-Giraldo received PhD Scholarship from the University of Southampton.
-
-\textbf{Disclosure of Interests.} The authors have no competing interests to declare that are relevant to the content of this article. 
-
+\end{comment}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
